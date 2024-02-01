@@ -1,17 +1,13 @@
-const { Client } = require('pg');
+const { connectionUrl } = require('../helper/connection');
 
 const tableList = async (req, res) => {
-  // Extract the connection URL from the request body
-  const connectionUrl = req.body.connectionUrl;
+  // Get the ID from the request body
+  const id = req.body.id;
 
-  // Create a new client for the PostgreSQL database
-  const client = new Client({
-    connectionString: connectionUrl,
-  });
-
+  let client;
   try {
-    // Connect to the PostgreSQL database
-    await client.connect();
+    // Connect to the database using the provided ID
+    client = await connectionUrl(id);
 
     // Query to get list of tables in the 'public' schema
     const data = await client.query(
@@ -37,19 +33,15 @@ const tableList = async (req, res) => {
 
 const insertTable = async (req, res) => {
   // Extract the required data from the request body
-  const { connectionUrl, tableName, values, columnName } = req.body;
+  const { id, tableName, values, columnName } = req.body;
 
-  // Create a new PostgreSQL client using the provided connection URL
-  const client = new Client({
-    connectionString: connectionUrl,
-  });
-
+  let client;
   try {
     // Format the column names for the query
     const colName = columnName.map((column) => `"${column}"`).join(', ');
 
-    // Connect to the PostgreSQL database
-    client.connect();
+    // Connect to the database using the provided ID
+    client = await connectionUrl(id);
 
     // Construct and execute the query to insert into the specified table
     await client.query(
@@ -79,23 +71,13 @@ const insertTable = async (req, res) => {
 
 const updateTable = async (req, res) => {
   // Destructure request body
-  const {
-    connectionUrl,
-    tableName,
-    column,
-    conditionValue,
-    newValue,
-    conditionColumn,
-  } = req.body;
+  const { id, tableName, column, conditionValue, newValue, conditionColumn } =
+    req.body;
 
-  // Create a new client using the connection URL
-  const client = new Client({
-    connectionString: connectionUrl,
-  });
-
+  let client;
   try {
-    // Connect to the PostgreSQL database
-    client.connect();
+    // Connect to the database using the provided ID
+    client = await connectionUrl(id);
 
     // Construct and execute the update query
     const updateQuery = `
@@ -125,17 +107,12 @@ const updateTable = async (req, res) => {
 
 const deleteTable = async (req, res) => {
   // Destructure connectionUrl, tableName, conditionValue, and conditionColumn from request body
-  const { connectionUrl, tableName, conditionValue, conditionColumn } =
-    req.body;
+  const { id, tableName, conditionValue, conditionColumn } = req.body;
 
-  // Create a new PostgreSQL client using the connectionUrl
-  const client = new Client({
-    connectionString: connectionUrl,
-  });
-
+  let client;
   try {
-    // Connect to the PostgreSQL database
-    client.connect();
+    // Connect to the database using the provided ID
+    client = await connectionUrl(id);
 
     // Execute a query to delete records from the specified table based on the given condition
     await client.query(
@@ -158,17 +135,13 @@ const deleteTable = async (req, res) => {
     // Ensure the client connection is closed, regardless of success or failure
     await client.end();
   }
-}; 
+};
 
 const createTable = async (req, res) => {
   // Extract connectionUrl, tableName, and columns from request body
-  const { connectionUrl, tableName, columns } = req.body;
+  const { id, tableName, columns } = req.body;
 
-  // Create a new PostgreSQL client using the provided connection URL
-  const client = new Client({
-    connectionString: connectionUrl,
-  });
-
+  let client;
   try {
     // Generate the column string in query format
     const columnString = await columns
@@ -181,8 +154,8 @@ const createTable = async (req, res) => {
       })
       .join(', ');
 
-    // Connect to the PostgreSQL database
-    client.connect();
+    // Connect to the database using the provided ID
+    client = await connectionUrl(id);
 
     // Execute a query to create the table using the generated column string
     await client.query(`CREATE TABLE ${tableName} (${columnString})`);
@@ -207,29 +180,19 @@ const createTable = async (req, res) => {
 
 const alterTable = async (req, res) => {
   // Extract relevant data from request body
-  const {
-    connectionUrl,
-    tableName,
-    method,
-    columnName,
-    columnType,
-    newColumnName,
-  } = req.body;
+  const { id, tableName, method, columnName, columnType, newColumnName } =
+    req.body;
 
-  // Create a new PostgreSQL client
-  const client = new Client({
-    connectionString: connectionUrl,
-  });
-
-  // Construct the appropriate query based on the method
-  const query =
-    method === 'RENAME'
-      ? `ALTER TABLE ${tableName} ${method} COLUMN ${columnName} to ${newColumnName}`
-      : `ALTER TABLE ${tableName} ${method} COLUMN ${columnName} ${columnType}`;
-
+  let client;
   try {
-    // Connect to the PostgreSQL database
-    client.connect();
+    // Construct the appropriate query based on the method
+    const query =
+      method === 'RENAME'
+        ? `ALTER TABLE ${tableName} ${method} COLUMN ${columnName} to ${newColumnName}`
+        : `ALTER TABLE ${tableName} ${method} COLUMN ${columnName} ${columnType}`;
+
+    // Connect to the database using the provided ID
+    client = await connectionUrl(id);
 
     // Execute the query to alter the table
     await client.query(query);

@@ -3,6 +3,13 @@ const router = express.Router();
 
 //add controller
 const tableController = require('../controller/table');
+const connectionController = require('../controller/connection');
+
+// connection the database and store url in local file
+router.post('/connection', connectionController.connectionUrl);
+
+// list database
+router.get('/connection', connectionController.connectionList);
 
 // Get records from specific table
 router.post('/', tableController.tableList);

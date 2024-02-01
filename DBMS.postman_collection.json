@@ -8,13 +8,194 @@
 	},
 	"item": [
 		{
-			"name": "tableList",
+			"name": "connect database",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5432/Test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/table/connection",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"table",
+						"connection"
+					]
+				},
+				"description": "First you need to connect your database using connection url"
+			},
+			"response": [
+				{
+					"name": "success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5432/Test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/table/connection",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"table",
+								"connection"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "108"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"6c-Xywsgl0xeicXq8rNho6VWAR/Ne8\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 01 Feb 2024 07:19:48 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Connection successful. You're connected to: postgresql://postgres:postgres@localhost:5432/Test\"\n}"
+				}
+			]
+		},
+		{
+			"name": "connection list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/table/connection",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"table",
+						"connection"
+					]
+				},
+				"description": "List connection from local file"
+			},
+			"response": [
+				{
+					"name": "success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/table/connection",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"table",
+								"connection"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "254"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"fe-wFY795FA/r7/u922wzcsuRhVPuY\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 01 Feb 2024 07:29:54 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"connection\": [\n        {\n            \"id\": \"e49dfd15-6fa1-4b18-9437-ede639dc777c\",\n            \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5432/Assignment-2\"\n        },\n        {\n            \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n            \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5432/Test\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "tableList",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -32,7 +213,7 @@
 						"table"
 					]
 				},
-				"description": "API for Table List using connectionUrl"
+				"description": "Table list for how many table in your database."
 			},
 			"response": [
 				{
@@ -42,7 +223,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5432/Test\"\n}",
+							"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -79,11 +260,11 @@
 						},
 						{
 							"key": "ETag",
-							"value": "W/\"ef-fcAvO1x+q7NzDKFKMYrNexNcEdM\""
+							"value": "W/\"ef-94LCQb6oVdUvffxLZKjHyY9B3/A\""
 						},
 						{
 							"key": "Date",
-							"value": "Tue, 30 Jan 2024 07:36:04 GMT"
+							"value": "Thu, 01 Feb 2024 07:49:08 GMT"
 						},
 						{
 							"key": "Connection",
@@ -95,548 +276,29 @@
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"table\": [\n        {\n            \"table_name\": \"author\"\n        },\n        {\n            \"table_name\": \"history\"\n        },\n        {\n            \"table_name\": \"bookauthor\"\n        },\n        {\n            \"table_name\": \"book\"\n        },\n        {\n            \"table_name\": \"user\"\n        },\n        {\n            \"table_name\": \"category\"\n        },\n        {\n            \"table_name\": \"employee\"\n        },\n        {\n            \"table_name\": \"bookcategory\"\n        },\n        {\n            \"table_name\": \"archive\"\n        }\n    ]\n}"
-				},
-				{
-					"name": "Error in database name",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5432/Test0\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:3000/table",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"table"
-							]
-						}
-					},
-					"status": "Bad Request",
-					"code": 400,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "X-Powered-By",
-							"value": "Express"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Content-Length",
-							"value": "179"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"b3-XT+Krl2XpZGQBZMViWt0FjVa658\""
-						},
-						{
-							"key": "Date",
-							"value": "Wed, 31 Jan 2024 06:37:02 GMT"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"message\": \"Error fetching data from PostgreSQL\",\n    \"error\": {\n        \"length\": 91,\n        \"name\": \"error\",\n        \"severity\": \"FATAL\",\n        \"code\": \"3D000\",\n        \"file\": \"postinit.c\",\n        \"line\": \"1021\",\n        \"routine\": \"InitPostgres\"\n    }\n}"
-				},
-				{
-					"name": "Error in port",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5430/Test\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:3000/table",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"table"
-							]
-						}
-					},
-					"status": "Bad Request",
-					"code": 400,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "X-Powered-By",
-							"value": "Express"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Content-Length",
-							"value": "141"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"8d-RYTtDQRQNPnN1Rh1AwCMLY5v+4E\""
-						},
-						{
-							"key": "Date",
-							"value": "Wed, 31 Jan 2024 06:41:00 GMT"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"message\": \"Error fetching data from PostgreSQL\",\n    \"error\": {\n        \"errno\": -61,\n        \"code\": \"ECONNREFUSED\",\n        \"syscall\": \"connect\",\n        \"address\": \"::1\",\n        \"port\": 5430\n    }\n}"
-				},
-				{
-					"name": "Error in hostName",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"connectionUrl\": \"postgresql://postgres:postgres@localhost1:5430/Test\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:3000/table",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"table"
-							]
-						}
-					},
-					"status": "Bad Request",
-					"code": 400,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "X-Powered-By",
-							"value": "Express"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Content-Length",
-							"value": "140"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"8c-hFV8FBE7NLe145JeUk+lyPrLfVw\""
-						},
-						{
-							"key": "Date",
-							"value": "Wed, 31 Jan 2024 06:41:46 GMT"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"message\": \"Error fetching data from PostgreSQL\",\n    \"error\": {\n        \"errno\": -3008,\n        \"code\": \"ENOTFOUND\",\n        \"syscall\": \"getaddrinfo\",\n        \"hostname\": \"localhost1\"\n    }\n}"
-				},
-				{
-					"name": "Error in userName or password",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"connectionUrl\": \"postgresql://postgres:123456@localhost:5432/Test\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:3000/table",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"table"
-							]
-						}
-					},
-					"status": "Bad Request",
-					"code": 400,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "X-Powered-By",
-							"value": "Express"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Content-Length",
-							"value": "174"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"ae-197V5xQBUgcjXKR5NgN6Wv0KLHw\""
-						},
-						{
-							"key": "Date",
-							"value": "Wed, 31 Jan 2024 06:42:55 GMT"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"message\": \"Error fetching data from PostgreSQL\",\n    \"error\": {\n        \"length\": 104,\n        \"name\": \"error\",\n        \"severity\": \"FATAL\",\n        \"code\": \"28P01\",\n        \"file\": \"auth.c\",\n        \"line\": \"326\",\n        \"routine\": \"auth_failed\"\n    }\n}"
-				}
-			]
-		},
-		{
-			"name": "insert",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5432/Test\",\n    \"tableName\": \"author\",\n    \"columnName\": [\"createdAt\", \"updatedAt\", \"id\", \"name\", \"email\"],\n    \"values\": [\"1706162430997\",\"1706162430997\",\"6e6bc18f-100b-4244-bdd9-cc418596cbac\", \"test\", \"test1@gmail.com\"]\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:3000/table/insert",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"table",
-						"insert"
-					]
-				},
-				"description": "API for Insert into table"
-			},
-			"response": [
-				{
-					"name": "success",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5432/Test\",\n    \"tableName\": \"author\",\n    \"columnName\": [\"createdAt\", \"updatedAt\", \"id\", \"name\", \"email\"],\n    \"values\": [\"1706162430997\",\"1706162430997\",\"6e6bc18f-107b-4244-bdd9-cc418596cbac\", \"test\", \"test4@gmail.com\"]\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:3000/table/insert",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"table",
-								"insert"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "X-Powered-By",
-							"value": "Express"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Content-Length",
-							"value": "43"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"2b-eqQF5XAOASbocmKEO+lv/6zAsg4\""
-						},
-						{
-							"key": "Date",
-							"value": "Wed, 31 Jan 2024 05:02:11 GMT"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"message\": \"Record inserted successfully.\"\n}"
-				}
-			]
-		},
-		{
-			"name": "update",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5432/Test\",\n    \"tableName\": \"author\",\n    \"column\": \"name\",\n    \"newValue\": \"test2\",\n    \"conditionColumn\": \"id\",\n    \"conditionValue\": \"6e6bc18f-100b-4244-bdd9-cc418596cbac\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:3000/table/update",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"table",
-						"update"
-					]
-				},
-				"description": "API for Update into table"
-			},
-			"response": [
-				{
-					"name": "success",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5432/Test\",\n    \"tableName\": \"author\",\n    \"column\": \"name\",\n    \"newValue\": \"test21\",\n    \"conditionColumn\": \"id\",\n    \"conditionValue\": \"6e6bc18f-100b-4244-bdd9-cc418596cbac\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:3000/table/update",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"table",
-								"update"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "X-Powered-By",
-							"value": "Express"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Content-Length",
-							"value": "42"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"2a-lxUYMqGLITQam1zQvtrMNRuibMU\""
-						},
-						{
-							"key": "Date",
-							"value": "Tue, 30 Jan 2024 07:36:43 GMT"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"message\": \"Record updated successfully.\"\n}"
-				}
-			]
-		},
-		{
-			"name": "delete",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5432/Test\",\n    \"tableName\": \"author\",\n    \"conditionColumn\": \"id\",\n    \"conditionValue\": \"6e6bc18f-100b-4244-bdd9-cc418596cbac\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:3000/table/delete",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"table",
-						"delete"
-					]
-				},
-				"description": "API for Delete into table"
-			},
-			"response": [
-				{
-					"name": "success",
-					"originalRequest": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5432/Test\",\n    \"tableName\": \"author\",\n    \"conditionColumn\": \"id\",\n    \"conditionValue\": \"6e6bc18f-100b-4244-bdd9-cc418596cbac\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:3000/table/delete",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"table",
-								"delete"
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "json",
-					"header": [
-						{
-							"key": "X-Powered-By",
-							"value": "Express"
-						},
-						{
-							"key": "Content-Type",
-							"value": "application/json; charset=utf-8"
-						},
-						{
-							"key": "Content-Length",
-							"value": "42"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"2a-I1Z5/kSmlcvlPB2UzDwd0YHkkIE\""
-						},
-						{
-							"key": "Date",
-							"value": "Tue, 30 Jan 2024 07:36:53 GMT"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5"
-						}
-					],
-					"cookie": [],
-					"body": "{\n    \"message\": \"Record deleted successfully.\"\n}"
+					"body": "{\n    \"table\": [\n        {\n            \"table_name\": \"author\"\n        },\n        {\n            \"table_name\": \"history\"\n        },\n        {\n            \"table_name\": \"bookauthor\"\n        },\n        {\n            \"table_name\": \"book\"\n        },\n        {\n            \"table_name\": \"user\"\n        },\n        {\n            \"table_name\": \"category\"\n        },\n        {\n            \"table_name\": \"bookcategory\"\n        },\n        {\n            \"table_name\": \"employee\"\n        },\n        {\n            \"table_name\": \"archive\"\n        }\n    ]\n}"
 				}
 			]
 		},
 		{
 			"name": "createTable",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5432/Test\",\n    \"tableName\": \"employee\",\n    \"columns\": [\n        {\n            \"colName\": \"id\",\n            \"type\": \"SERIAL\",\n            \"key\": \"PRIMARY KEY\"\n        },\n        {\n            \"colName\": \"name\",\n            \"type\": \"VARCHAR(255)\"\n        },\n        {\n            \"colName\": \"age\",\n            \"type\": \"INT\"\n        }\n    ]\n}",
+					"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"tableName\": \"employee\",\n    \"columns\": [\n        {\n            \"colName\": \"id\",\n            \"type\": \"SERIAL\",\n            \"key\": \"PRIMARY KEY\"\n        },\n        {\n            \"colName\": \"name\",\n            \"type\": \"VARCHAR(255)\"\n        },\n        {\n            \"colName\": \"age\",\n            \"type\": \"INT\"\n        }\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -655,7 +317,7 @@
 						"create"
 					]
 				},
-				"description": "API for Create table"
+				"description": "create new table"
 			},
 			"response": [
 				{
@@ -665,7 +327,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5432/Test\",\n    \"tableName\": \"employee\",\n    \"columns\": [\n        {\n            \"colName\": \"id\",\n            \"type\": \"SERIAL\",\n            \"key\": \"PRIMARY KEY\"\n        },\n        {\n            \"colName\": \"name\",\n            \"type\": \"VARCHAR(255)\"\n        },\n        {\n            \"colName\": \"age\",\n            \"type\": \"INT\"\n        }\n    ]\n}",
+							"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"tableName\": \"employee\",\n    \"columns\": [\n        {\n            \"colName\": \"id\",\n            \"type\": \"SERIAL\",\n            \"key\": \"PRIMARY KEY\"\n        },\n        {\n            \"colName\": \"name\",\n            \"type\": \"VARCHAR(255)\"\n        },\n        {\n            \"colName\": \"age\",\n            \"type\": \"INT\"\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -707,7 +369,7 @@
 						},
 						{
 							"key": "Date",
-							"value": "Tue, 30 Jan 2024 07:37:29 GMT"
+							"value": "Thu, 01 Feb 2024 07:50:55 GMT"
 						},
 						{
 							"key": "Connection",
@@ -730,7 +392,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5432/Test\",\n    \"tableName\": \"employee\",\n    \"method\": \"ADD\", //ADD, DROP, RENAME\n    \"columnName\": \"mobile\",\n    \"columnType\": \"INT\", // if drop then send it emplty string\n    \"newColumnName\": \"mo\"\n}",
+					"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"tableName\": \"employee\",\n    \"method\": \"ADD\", //ADD, DROP, RENAME\n    \"columnName\": \"mobile\",\n    \"columnType\": \"INT\", // if drop then send it emplty string\n    \"newColumnName\": \"mo\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -759,7 +421,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5432/Test\",\n    \"tableName\": \"employee\",\n    \"method\": \"ADD\", //ADD, DROP, RENAME\n    \"columnName\": \"mobile\",\n    \"columnType\": \"INT\", // if drop then send it emplty string\n    \"newColumnName\": \"mo\"\n}",
+							"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"tableName\": \"employee\",\n    \"method\": \"ADD\", //ADD, DROP, RENAME\n    \"columnName\": \"mobile\",\n    \"columnType\": \"INT\", // if drop then send it emplty string\n    \"newColumnName\": \"mo\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -801,7 +463,7 @@
 						},
 						{
 							"key": "Date",
-							"value": "Tue, 30 Jan 2024 07:37:48 GMT"
+							"value": "Thu, 01 Feb 2024 07:53:34 GMT"
 						},
 						{
 							"key": "Connection",
@@ -814,6 +476,288 @@
 					],
 					"cookie": [],
 					"body": "{\n    \"message\": \"Table altered successfully.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "insert",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"tableName\": \"author\",\n    \"columnName\": [\"createdAt\", \"updatedAt\", \"id\", \"name\", \"email\"],\n    \"values\": [\"1706162430997\",\"1706162430997\",\"6e6bc18o-100b-4244-bdd9-cc418596cba2\", \"test\", \"test10@gmail.com\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/table/insert",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"table",
+						"insert"
+					]
+				},
+				"description": "API for Insert into table"
+			},
+			"response": [
+				{
+					"name": "success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"tableName\": \"author\",\n    \"columnName\": [\"createdAt\", \"updatedAt\", \"id\", \"name\", \"email\"],\n    \"values\": [\"1706162430997\",\"1706162430997\",\"6e6bc18o-100b-4244-bdd9-cc418596cba2\", \"test\", \"test10@gmail.com\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/table/insert",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"table",
+								"insert"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "43"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2b-eqQF5XAOASbocmKEO+lv/6zAsg4\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 01 Feb 2024 07:56:19 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Record inserted successfully.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "update",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"tableName\": \"author\",\n    \"column\": \"name\",\n    \"newValue\": \"test2\",\n    \"conditionColumn\": \"id\",\n    \"conditionValue\": \"6e6bc18o-100b-4244-bdd9-cc418596cba2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/table/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"table",
+						"update"
+					]
+				},
+				"description": "API for Update into table"
+			},
+			"response": [
+				{
+					"name": "success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"tableName\": \"author\",\n    \"column\": \"name\",\n    \"newValue\": \"test2\",\n    \"conditionColumn\": \"id\",\n    \"conditionValue\": \"6e6bc18o-100b-4244-bdd9-cc418596cba2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/table/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"table",
+								"update"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "42"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2a-lxUYMqGLITQam1zQvtrMNRuibMU\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 01 Feb 2024 07:57:26 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Record updated successfully.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "delete",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"tableName\": \"author\",\n    \"conditionColumn\": \"id\",\n    \"conditionValue\": \"6e6bc18o-100b-4244-bdd9-cc418596cba2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/table/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"table",
+						"delete"
+					]
+				},
+				"description": "API for Delete into table"
+			},
+			"response": [
+				{
+					"name": "success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"tableName\": \"author\",\n    \"conditionColumn\": \"id\",\n    \"conditionValue\": \"6e6bc18o-100b-4244-bdd9-cc418596cba2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/table/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"table",
+								"delete"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "42"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2a-I1Z5/kSmlcvlPB2UzDwd0YHkkIE\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 01 Feb 2024 07:58:10 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Record deleted successfully.\"\n}"
 				}
 			]
 		}
