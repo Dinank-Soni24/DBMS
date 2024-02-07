@@ -5,6 +5,7 @@ const app = express();
 
 // import routes
 const tableRoute = require('./api/routes/table');
+const storedProcedureRoute = require('./api/routes/storedProcedure');
 
 // middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -12,6 +13,7 @@ app.use(bodyParser.json());
 
 // routes
 app.use('/table', tableRoute);
+app.use('/query', storedProcedureRoute)
 
 // handle 404
 app.use((req, res, next) => {

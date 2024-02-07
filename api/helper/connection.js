@@ -1,21 +1,30 @@
 const { Client } = require('pg');
+const mysql2 = require('mysql2/promise');
 const { readFile } = require('./readFile');
 
 const connectionUrl = async (id) => {
   const url = await readFile(id);
   try {
-    // Create a new PostgreSQL client using the provided connection URL
-    const client = new Client({
-      connectionString: url.connectionUrl,
-    });
+    let client =
+      url.database === 'postgres'
+        ? new Client({
+            connectionString: url.connectionUrl,
+          })
+        : url.database === 'mysql'
+        ? await mysql2.createConnection(url.connectionUrl)
+        : null;
 
     // Connect to the PostgreSQL database
-    client.connect();
+    await client.connect();
 
-    return client;
+    return {
+      client,
+      database: url.database,
+      databaseName: client?.config?.database || client?.database,
+    };
   } catch (error) {
-    console.log(error);
-    return null;
+    console.log('Error', error);
+    return { error: error.message };
   }
 };
 

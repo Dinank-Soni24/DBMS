@@ -1,20 +1,23 @@
 const { Client } = require('pg');
+const mysql2 = require('mysql2/promise');
 const fs = require('fs');
 const { v4: uuidv4 } = require('uuid');
 const { CONNECTION_FILE_PATH } = require('../config/constant');
 
 const connectionUrl = async (req, res) => {
   // Extract the connection URL from the request body
-  const connectionUrl = req.body.connectionUrl;
+  const { connectionUrl, database } = req.body;
   const id = uuidv4();
-
-  // Create a new client for the PostgreSQL database
-  const client = new Client({
-    connectionString: connectionUrl,
-  });
-
   try {
-    // Connect to the PostgreSQL database
+    // Create a new client for the PostgreSQL database
+    const client =
+      database === 'postgres'
+        ? new Client({
+            connectionString: connectionUrl,
+          })
+        : await mysql2.createConnection(connectionUrl);
+
+    // Connect to the database
     await client.connect();
 
     // check if the file exists
@@ -48,25 +51,25 @@ const connectionUrl = async (req, res) => {
     }
 
     // Add the new connection data to the existing data
-    data.connections.push({ id, connectionUrl });
+    data.connections.push({ id, database, connectionUrl });
 
     // Write the updated data back to the file
     fs.writeFileSync(CONNECTION_FILE_PATH, JSON.stringify(data));
+
+    // Close the client connection
+    client.end();
 
     // Send a success response with the connected URL
     return res.status(200).json({
       message: "Connection successful. You're connected to: " + connectionUrl,
     });
   } catch (err) {
-    // Handle and log errors when fetching data from PostgreSQL
-    console.error('Error fetching data from PostgreSQL:', err);
+    // Handle and log errors when fetching data from database
+    console.error('Error fetching data from database:', err);
     return res.status(400).json({
-      message: 'Error fetching data from PostgreSQL',
-      error: err,
+      message: 'Error fetching data from database',
+      error: err.message || err,
     });
-  } finally {
-    // Close the client connection after the operation is complete
-    await client.end();
   }
 };
 
