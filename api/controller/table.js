@@ -48,23 +48,34 @@ const tableList = async (req, res) => {
 
 const insertTable = async (req, res) => {
   // Extract the required data from the request body
-  const { id, tableName, values, columnName, schema } = req.body;
+  const { id, tableName, values, columnName } = req.body;
 
-  let client;
   try {
     // Format the column names for the query
-    const colName = columnName.map((column) => `"${column}"`).join(', ');
+    const colName = columnName.map((column) => `${column}`).join(', ');
 
     // Connect to the database using the provided ID
-    client = await connectionUrl(id);
+    const connection = await connectionUrl(id);
+
+    // Generate the schema name
+    const schema =
+      connection.database === 'postgres'
+        ? req.body.schema
+        : connection.databaseName;
+
+    const query =
+      connection.database === 'postgres'
+        ? `${values.map((_, index) => '$' + (index + 1)).join(',')}`
+        : `${values.map((_) => '?').join(',')}`;
 
     // Construct and execute the query to insert into the specified table
-    await client.query(
-      `INSERT INTO ${schema}.${tableName}(${colName}) VALUES(${values
-        .map((_, index) => '$' + (index + 1))
-        .join(',')}) RETURNING *`,
+    await connection.client.query(
+      `INSERT INTO ${schema}.${tableName}(${colName}) VALUES(${query})`,
       values
     );
+
+    // Close the client connection after the operation is complete
+    await connection.client.end();
 
     // Log and return a success message
     console.log('Record inserted successfully.');
@@ -78,36 +89,49 @@ const insertTable = async (req, res) => {
       message: 'Error inserting record',
       error: err,
     });
-  } finally {
-    // Ensure the client is properly closed regardless of the outcome
-    await client.end();
   }
 };
 
 const updateTable = async (req, res) => {
   // Destructure request body
-  const {
-    id,
-    tableName,
-    column,
-    conditionValue,
-    newValue,
-    conditionColumn,
-    schema,
-  } = req.body;
+  const { id, tableName, column, conditionValue, newValue, conditionColumn } =
+    req.body;
 
-  let client;
   try {
     // Connect to the database using the provided ID
-    client = await connectionUrl(id);
+    const connection = await connectionUrl(id);
+
+    // Generate the schema name
+    const schema =
+      connection.database === 'postgres'
+        ? req.body.schema
+        : connection.databaseName;
+
+    // Format the column names for the query
+    const updateCol =
+      connection.database === 'postgres'
+        ? column.map((col, index) => `${col} = $${index + 1}`).join(', ')
+        : column.map((col) => `${col} = ?`).join(', ');
+
+    // Format the condition value for the query
+    const whereValue =
+      connection.database === 'postgres' ? `$${column.length + 1}` : '?';
 
     // Construct and execute the update query
     const updateQuery = `
       UPDATE ${schema}.${tableName}
-      SET ${column} = $1, updated_at = NOW()
-      WHERE ${conditionColumn} = $2
+      SET ${updateCol}, updated_at = NOW()
+      WHERE ${conditionColumn} = ${whereValue}
     `;
-    await client.query(updateQuery, [newValue, conditionValue]);
+
+    // Format the new value for the query
+    const values = [...newValue, conditionValue];
+
+    // Execute the update query
+    await connection.client.query(updateQuery, values);
+
+    // Close the client connection after the operation is complete
+    await connection.client.end();
 
     // Log success and send response
     console.log('Record updated successfully.');
@@ -121,26 +145,34 @@ const updateTable = async (req, res) => {
       message: 'Error updating record',
       error: err,
     });
-  } finally {
-    // Close the database connection
-    await client.end();
   }
 };
 
 const deleteTable = async (req, res) => {
   // Destructure connectionUrl, tableName, conditionValue, and conditionColumn from request body
-  const { id, tableName, conditionValue, conditionColumn, schema } = req.body;
+  const { id, tableName, conditionValue, conditionColumn } = req.body;
 
-  let client;
   try {
     // Connect to the database using the provided ID
-    client = await connectionUrl(id);
+    const connection = await connectionUrl(id);
+
+    // Generate the schema name
+    const schema =
+      connection.database === 'postgres'
+        ? req.body.schema
+        : connection.databaseName;
 
     // Execute a query to delete records from the specified table based on the given condition
-    await client.query(
-      `DELETE FROM ${schema}.${tableName} WHERE ${conditionColumn} = $1`,
+    await connection.client.query(
+      `DELETE FROM ${schema}.${tableName} WHERE ${conditionColumn} = ${
+        connection.database === 'postgres' ? `$1` : '?'
+      };`,
       [conditionValue]
     );
+
+    // Close the client connection after the operation is complete
+    await connection.client.end();
+
     console.log('Record deleted successfully.');
     // Return a success message in JSON format
     return res.status(200).json({
@@ -153,9 +185,6 @@ const deleteTable = async (req, res) => {
       message: 'Error deleting record',
       error: err,
     });
-  } finally {
-    // Ensure the client connection is closed, regardless of success or failure
-    await client.end();
   }
 };
 
@@ -185,7 +214,9 @@ const createTable = async (req, res) => {
         : connection.databaseName;
 
     // Generate the column string in query format
-    let colName = `${columnString}, created_at timestamp default now(), updated_at timestamp default now()`;
+    let colName = `${columnString}, created_at timestamp default now(), updated_at timestamp default now() ${
+      connection.database === 'postgres' ? '' : 'on update now()'
+    }`;
 
     // Add foreign key constraint if provided
     if (foreignKey) {
@@ -253,7 +284,8 @@ const alterTable = async (req, res) => {
     const query =
       method === 'RENAME'
         ? `ALTER TABLE ${schema}.${tableName} ${method} COLUMN ${columnName} to ${newColumnName}`
-        : method === 'ADD' && foreignKey?.length > 0
+        : // check if there is foreign key and method is add
+        method === 'ADD' && foreignKey?.length > 0
         ? foreignKey
             .map((key) => {
               return `ALTER TABLE ${schema}.${tableName} ${method} CONSTRAINT ${key.name}
@@ -261,14 +293,15 @@ const alterTable = async (req, res) => {
               REFERENCES ${schema}.${key.refTable}(${key.refCol});`;
             })
             .join('\n')
-        : method === 'ADD' && primaryKey
+        : // check if there is primary key and method is add
+        method === 'ADD' && primaryKey
         ? `ALTER TABLE ${schema}.${tableName} ${method} CONSTRAINT ${primaryKey.name} PRIMARY KEY (${primaryKey.colName});`
         : `ALTER TABLE ${schema}.${tableName} ${method} COLUMN ${columnName} ${columnType}`;
 
     console.log('query', query);
 
     // Execute the query to alter the table
-    await connection.client.query(query+ '\n;');
+    await connection.client.query(query);
     console.log('Table altered successfully.');
 
     // Return a success message
