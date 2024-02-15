@@ -3,14 +3,16 @@ const mysql2 = require('mysql2/promise');
 const { readFile } = require('./readFile');
 
 const connectionUrl = async (id) => {
+  // Extract the connection url from local file
   const url = await readFile(id);
   try {
+    
     let client =
-      url.database === 'postgres'
+      url?.database === 'postgres'
         ? new Client({
             connectionString: url.connectionUrl,
           })
-        : url.database === 'mysql'
+        : url?.database === 'mysql'
         ? await mysql2.createConnection(url.connectionUrl)
         : null;
 

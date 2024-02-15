@@ -3,20 +3,44 @@ const { connectionUrl } = require('../helper/connection');
 
 const saveQuery = async (req, res) => {
   // Extract the required data from the request body
-  const { name, query } = req.body;
+  const { id, name, query, columns } = req.body;
 
-  let client;
   try {
-    const id = uuidv4();
-    const values = [`${id}`, `${name}`, `${query}`];
-    // Connect to the database using the provided ID
-    client = await connectionUrl('988a2d93-d4cb-48ff-b984-d4f0b638815b');
+    // Convert columns array to string
+    const columnString = columns
+      .map((column) => `${column.method} ${column.name} ${column.type}`)
+      .join(',\n    ');
 
+    // Connect to the database using the provided ID
+    const connection = await connectionUrl(id);
+
+    // Generate the schema name
+    const schema =
+      connection.database === 'postgres'
+        ? req.body.schema
+        : connection.databaseName;
+
+    const procedureQuery =
+      connection.database === 'postgres'
+        ? `CREATE OR REPLACE PROCEDURE ${schema}.${name}(${columnString})
+          LANGUAGE plpgsql
+          AS $$
+          BEGIN
+            ${query}
+          END
+          $$;`
+        : `
+          CREATE PROCEDURE ${schema}.${name}(${columnString})
+          BEGIN
+              ${query}
+          END`;
+
+    console.log('procedureQuery', procedureQuery);
     // Construct and execute the query to insert into the specified table
-    await client.query(
-      `INSERT INTO test.sp("id","name", "query") VALUES($1 ,$2, $3) RETURNING *`,
-      values
-    );
+    await connection.client.query(`${procedureQuery}`);
+
+    // Close the client connection after the operation is complete
+    await connection.client.end();
 
     // Log and return a success message
     console.log('Record inserted successfully.');
@@ -30,55 +54,109 @@ const saveQuery = async (req, res) => {
       message: 'Error inserting record',
       error: err,
     });
-  } finally {
-    // Ensure the client is properly closed regardless of the outcome
-    await client.end();
   }
 };
 
 const executeQuery = async (req, res) => {
   // Extract the required data from the request body
-  const { name, values } = req.body;
+  const { id, name, values } = req.body;
 
-  let client;
   try {
     // Connect to the database using the provided ID
-    client = await connectionUrl('988a2d93-d4cb-48ff-b984-d4f0b638815b');
+    const connection = await connectionUrl(id);
 
-    // Construct and execute the query to insert into the specified table
-    const query = await client.query(
-      `SELECT * FROM test.sp WHERE name = '${name}'`
+    // Generate the schema name
+    const schema =
+      connection.database === 'postgres'
+        ? req.body.schema
+        : connection.databaseName;
+
+    const convertedString = values
+      .map((value) => (typeof value === 'string' ? `'${value}'` : value))
+      .join(', ');
+
+    // Construct and execute the query to call the stored procedure
+    const data = await connection.client.query(
+      `CALL ${schema}.${name}(${convertedString})`
     );
 
-    // Replace placeholders with values from the request body
-    const replacedQuery = query.rows[0].query.replace(
-      /@(\w+)/g,
-      (match, placeholder) => {
-        // Extract the placeholder name (e.g., id, name, age, mobile)
-        const value = values[placeholder];
-        // Check the data type of the value and format it accordingly
-        if (typeof value === 'string') {
-          return `'${value}'`; // Enclose string values in single quotes
-        } else {
-          return value; // For other types (numbers, etc.), no formatting is needed
-        }
-      }
-    );
-
-    // execute the query that match the name
-    const executeQuery = await client.query(`${replacedQuery}`);
+    // Close the client connection after the operation is complete
+    await connection.client.end();
 
     // Log and return a success message
-    console.log('Record inserted successfully.');
+    console.log('query executed successfully.');
     return res.status(200).json({
-      message: 'Record inserted successfully.',
-      data: executeQuery.rows,
+      message: 'query executed successfully.',
+      data: connection.database === 'postgres' ? undefined : data[0][0],
     });
   } catch (err) {
     // Log any errors that occur during the insertion process
-    console.error('Error inserting record:', err);
+    console.error('Error executed query:', err);
     return res.status(400).json({
-      message: 'Error inserting record',
+      message: 'Error query executed query',
+      error: err,
+    });
+  }
+};
+
+const listQuery = async (req, res) => {
+  // Get the ID from the request body
+  const { id } = req.query;
+
+  try {
+    // Connect to the database using the provided ID
+    const connection = await connectionUrl(id);
+
+    // Generate the schema name
+    const schema =
+      connection.database === 'postgres'
+        ? req.query.schema
+        : connection.databaseName;
+
+    const query =
+      connection.database === 'postgres'
+        ? `SELECT
+              p.proname AS function_name,
+              pg_get_function_result(p.oid) AS return_type,
+              pg_catalog.pg_get_function_arguments(p.oid) AS parameters,
+              p.pronargs
+          FROM
+              pg_catalog.pg_proc p
+          JOIN
+              pg_catalog.pg_namespace n ON n.oid = p.pronamespace
+          WHERE
+              n.nspname = '${schema}' and p.prokind = 'p';`
+        : `SELECT
+              r.SPECIFIC_NAME,
+              p.ORDINAL_POSITION,
+              p.PARAMETER_MODE,
+              p.PARAMETER_NAME,
+              p.DTD_IDENTIFIER
+          FROM
+              INFORMATION_SCHEMA.ROUTINES as r
+          left JOIN
+              INFORMATION_SCHEMA.PARAMETERS as p ON r.SPECIFIC_NAME = p.SPECIFIC_NAME
+          WHERE
+              r.ROUTINE_SCHEMA = '${schema}'
+              or p.SPECIFIC_SCHEMA = '${schema}';`;
+
+    // Construct and execute the query to get all stored procedures
+    const data = await connection.client.query(query);
+
+    // Close the client connection after the operation is complete
+    await connection.client.end();
+
+    // Log and return a success message
+    console.log('query executed successfully.');
+    return res.status(200).json({
+      message: 'query executed successfully.',
+      data: connection.database === 'postgres' ? data.rows : data[0],
+    });
+  } catch (err) {
+    // Log any errors that occur during the insertion process
+    console.error('Error executed query:', err);
+    return res.status(400).json({
+      message: 'Error query executed query',
       error: err,
     });
   }
@@ -87,4 +165,5 @@ const executeQuery = async (req, res) => {
 module.exports = {
   saveQuery,
   executeQuery,
+  listQuery,
 };

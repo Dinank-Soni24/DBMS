@@ -1,32 +1,72 @@
 const express = require('express');
 const router = express.Router();
 
+const validate = require('../validators/validate');
+const connectionValidation = require('../validators/connection');
+const onTableValidation = require('../validators/onTable');
+
 //add controller
-const tableController = require('../controller/table');
+const inTableController = require('../controller/inTable');
+const onTableController = require('../controller/onTable');
 const connectionController = require('../controller/connection');
 
+/****************************
+ * Database method *
+ ****************************/
+
 // connection the database and store url in local file
-router.post('/connection', connectionController.connectionUrl);
+router.post(
+  '/connection',
+  validate(connectionValidation.connectionSchema),
+  connectionController.connectionUrl
+);
 
 // list database
-router.get('/connection', connectionController.connectionList);
+router.get(
+  '/connection',
+  validate(connectionValidation.listConnection),
+  connectionController.connectionList
+);
+
+/****************************
+ * On Table method *
+ ****************************/
 
 // Get records from specific table
-router.post('/', tableController.tableList);
-
-// insert data into specific table
-router.post('/insert', tableController.insertTable);
-
-// update data into specific table
-router.post('/update', tableController.updateTable);
-
-// delete data from specific table
-router.post('/delete', tableController.deleteTable);
+router.get(
+  '/',
+  validate(onTableValidation.listTable),
+  onTableController.tableList
+);
 
 // create table
-router.post('/create', tableController.createTable);
+router.post(
+  '/create',
+  validate(onTableValidation.createTable),
+  onTableController.createTable
+);
 
 // alter table (ADD, DROP, RENAME)
-router.post('/alter', tableController.alterTable);
+router.post(
+  '/alter',
+  validate(onTableValidation.alterTable),
+  onTableController.alterTable
+);
+
+/****************************
+ * In Table method *
+ ****************************/
+
+// insert data into specific table
+router.post('/insert', inTableController.insertTable);
+
+// update data into specific table
+router.post('/update', inTableController.updateTable);
+
+// delete data from specific table
+router.post('/delete', inTableController.deleteTable);
+
+// get data from specific table
+router.get('/list', inTableController.listTableRow);
 
 module.exports = router;

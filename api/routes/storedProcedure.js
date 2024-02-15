@@ -7,4 +7,6 @@ router.post('/save', storedProcedure.saveQuery)
 
 router.post('/execute', storedProcedure.executeQuery)
 
+router.get('/list', storedProcedure.listQuery)
+
 module.exports = router;
