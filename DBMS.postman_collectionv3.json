@@ -1,0 +1,1502 @@
+{
+	"info": {
+		"_postman_id": "c12a669d-1f5c-4580-8998-9063dc97df12",
+		"name": "DBMS",
+		"description": "API document for DataBase Management System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32674692"
+	},
+	"item": [
+		{
+			"name": "Connections",
+			"item": [
+				{
+					"name": "connect database",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"database\": \"mysql\", // mysql or postgres\n    \"connectionUrl2\": \"mysql://root:password@127.0.0.1/test\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/table/connection",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"table",
+								"connection"
+							]
+						},
+						"description": "First you need to connect your database using connection url"
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5432/Test\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/table/connection",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"table",
+										"connection"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "108"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"6c-Xywsgl0xeicXq8rNho6VWAR/Ne8\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 01 Feb 2024 07:19:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Connection successful. You're connected to: postgresql://postgres:postgres@localhost:5432/Test\"\n}"
+						}
+					]
+				},
+				{
+					"name": "connection list",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/table/connection",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"table",
+								"connection"
+							],
+							"query": [
+								{
+									"key": "e",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "",
+									"disabled": true
+								}
+							]
+						},
+						"description": "List connection from local file"
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/table/connection",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"table",
+										"connection"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "254"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"fe-wFY795FA/r7/u922wzcsuRhVPuY\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 01 Feb 2024 07:29:54 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"connection\": [\n        {\n            \"id\": \"e49dfd15-6fa1-4b18-9437-ede639dc777c\",\n            \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5432/Assignment-2\"\n        },\n        {\n            \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n            \"connectionUrl\": \"postgresql://postgres:postgres@localhost:5432/Test\"\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "storage procedure",
+			"item": [
+				{
+					"name": "save query",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"9a0c4708-b011-4e07-9566-9044f1a4bceb\", //9f48c5fa-070c-4dba-801e-43a31028fce3 //9a0c4708-b011-4e07-9566-9044f1a4bceb\n    \"schema\": \"test\",\n    \"name\": \"addMerchants\",\n    \"columns\": [\n        {\n            \"name\": \"id_value\",\n            \"type\": \"INT\",\n            \"method\": \"IN\"\n        },\n        {\n            \"name\": \"title_value\",\n            \"type\": \"VARCHAR(255)\",\n            \"method\": \"IN\"\n        },\n        {\n            \"name\": \"description_value\",\n            \"type\": \"VARCHAR(255)\",\n            \"method\": \"IN\"\n        },\n        {\n            \"name\": \"userId_value\",\n            \"type\": \"INT\",\n            \"method\": \"IN\"\n        }\n    ],\n   \"query\": \"INSERT INTO test.merchant (id,title, description, userId) VALUES (id_value,title_value, description_value, userId_value);\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/query/save",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"query",
+								"save"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"saveEmployee\",\n    \"query\": \"INSERT INTO test.employee (id, name, age, mobile, isAdmin) VALUES (@id, @name, @age, @mobile, @isAdmin);\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/query/save",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"query",
+										"save"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "43"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b-eqQF5XAOASbocmKEO+lv/6zAsg4\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 02 Feb 2024 05:29:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Record inserted successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "list procedure",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/query/list?id=9f48c5fa-070c-4dba-801e-43a31028fce3&schema=test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"query",
+								"list"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "9f48c5fa-070c-4dba-801e-43a31028fce3",
+									"description": "9a0c4708-b011-4e07-9566-9044f1a4bceb >> 9f48c5fa-070c-4dba-801e-43a31028fce3"
+								},
+								{
+									"key": "schema",
+									"value": "test"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/query/list?id=9f48c5fa-070c-4dba-801e-43a31028fce3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"query",
+										"list"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "9f48c5fa-070c-4dba-801e-43a31028fce3"
+										},
+										{
+											"key": "schema",
+											"value": "test",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1113"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"459-la+CvFT/K3HFM5tXHBLnOVWovdU\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 12 Feb 2024 07:41:01 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"query executed successfully.\",\n    \"data\": [\n        {\n            \"SPECIFIC_NAME\": \"SelectAllCustomers\",\n            \"ORDINAL_POSITION\": null,\n            \"PARAMETER_MODE\": null,\n            \"PARAMETER_NAME\": null,\n            \"DTD_IDENTIFIER\": null\n        },\n        {\n            \"SPECIFIC_NAME\": \"addUser\",\n            \"ORDINAL_POSITION\": 1,\n            \"PARAMETER_MODE\": \"IN\",\n            \"PARAMETER_NAME\": \"title_value\",\n            \"DTD_IDENTIFIER\": \"varchar(255)\"\n        },\n        {\n            \"SPECIFIC_NAME\": \"addUser\",\n            \"ORDINAL_POSITION\": 2,\n            \"PARAMETER_MODE\": \"IN\",\n            \"PARAMETER_NAME\": \"description_value\",\n            \"DTD_IDENTIFIER\": \"varchar(255)\"\n        },\n        {\n            \"SPECIFIC_NAME\": \"addUser\",\n            \"ORDINAL_POSITION\": 3,\n            \"PARAMETER_MODE\": \"IN\",\n            \"PARAMETER_NAME\": \"userId_value\",\n            \"DTD_IDENTIFIER\": \"int\"\n        },\n        {\n            \"SPECIFIC_NAME\": \"getAllUser\",\n            \"ORDINAL_POSITION\": null,\n            \"PARAMETER_MODE\": null,\n            \"PARAMETER_NAME\": null,\n            \"DTD_IDENTIFIER\": null\n        },\n        {\n            \"SPECIFIC_NAME\": \"addMerchant\",\n            \"ORDINAL_POSITION\": 1,\n            \"PARAMETER_MODE\": \"IN\",\n            \"PARAMETER_NAME\": \"title_value\",\n            \"DTD_IDENTIFIER\": \"varchar(255)\"\n        },\n        {\n            \"SPECIFIC_NAME\": \"addMerchant\",\n            \"ORDINAL_POSITION\": 2,\n            \"PARAMETER_MODE\": \"IN\",\n            \"PARAMETER_NAME\": \"description_value\",\n            \"DTD_IDENTIFIER\": \"varchar(255)\"\n        },\n        {\n            \"SPECIFIC_NAME\": \"addMerchant\",\n            \"ORDINAL_POSITION\": 3,\n            \"PARAMETER_MODE\": \"IN\",\n            \"PARAMETER_NAME\": \"userId_value\",\n            \"DTD_IDENTIFIER\": \"int\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "execute query",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"9f48c5fa-070c-4dba-801e-43a31028fce3\", //9f48c5fa-070c-4dba-801e-43a31028fce3 //9a0c4708-b011-4e07-9566-9044f1a4bceb\n    \"schema\": \"test\",\n    \"name\": \"addMerchant\",\n    \"values\": [\"yash\",\"test-12\",10]\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/query/execute",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"query",
+								"execute"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"saveEmployee\",\n    \"values\": {\n        \"id\": 4,\n        \"name\": \"jay\",\n        \"age\": 21,\n        \"mobile\": 25963,\n        \"isAdmin\": false\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/query/execute",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"query",
+										"execute"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "53"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"35-2E5+bsiARl1tnuYH+8K8v1tQgJw\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 02 Feb 2024 05:29:44 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Record inserted successfully.\",\n    \"data\": []\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "On table",
+			"item": [
+				{
+					"name": "tableList",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/table?id=9f48c5fa-070c-4dba-801e-43a31028fce3&schema=test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"table"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "9f48c5fa-070c-4dba-801e-43a31028fce3",
+									"description": "9a0c4708-b011-4e07-9566-9044f1a4bceb >> 9f48c5fa-070c-4dba-801e-43a31028fce3"
+								},
+								{
+									"key": "schema",
+									"value": "test"
+								}
+							]
+						},
+						"description": "Table list for how many table in your database."
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/table",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"table"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "239"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ef-94LCQb6oVdUvffxLZKjHyY9B3/A\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 01 Feb 2024 07:49:08 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"table\": [\n        {\n            \"table_name\": \"author\"\n        },\n        {\n            \"table_name\": \"history\"\n        },\n        {\n            \"table_name\": \"bookauthor\"\n        },\n        {\n            \"table_name\": \"book\"\n        },\n        {\n            \"table_name\": \"user\"\n        },\n        {\n            \"table_name\": \"category\"\n        },\n        {\n            \"table_name\": \"bookcategory\"\n        },\n        {\n            \"table_name\": \"employee\"\n        },\n        {\n            \"table_name\": \"archive\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "createTable",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"9a0c4708-b011-4e07-9566-9044f1a4bceb\",\n    \"schema\": \"test\",\n    \"tableName\": \"merchant\",\n    \"columns\": [\n        {\n            \"colName\": \"id\",\n            \"type\": \"INT\",\n            \"key\": \"PRIMARY KEY\"\n        },\n        {\n            \"colName\": \"title\",\n            \"type\": \"VARCHAR(255)\"\n        },\n        {\n            \"colName\": \"description\",\n            \"type\": \"TEXT\"\n        },\n        {\n            \"colName\": \"userId\",\n            \"type\": \"INT\"\n        }\n    ]\n    // \"foreignKey\": [\n    //     {\n    //         \"name\": \"fk_employee\",\n    //         // \"colName\": \"title\",\n    //         \"refTable\": \"employee\",\n    //         \"refCol\": \"name\"\n    //     },\n    //     {\n    //         \"name\": \"fk_user\",\n    //         \"colName\": \"userId\",\n    //         \"refTable\": \"user\",\n    //         \"refCol\": \"id\"\n    //     }\n    // ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/table/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"table",
+								"create"
+							]
+						},
+						"description": "create new table"
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"tableName\": \"employee\",\n    \"columns\": [\n        {\n            \"colName\": \"id\",\n            \"type\": \"SERIAL\",\n            \"key\": \"PRIMARY KEY\"\n        },\n        {\n            \"colName\": \"name\",\n            \"type\": \"VARCHAR(255)\"\n        },\n        {\n            \"colName\": \"age\",\n            \"type\": \"INT\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/table/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"table",
+										"create"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "41"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"29-A6Ru+oBS1McLOExyjZVq4iCaYCg\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 01 Feb 2024 07:50:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Table created successfully.\"\n}"
+						},
+						{
+							"name": "success with foreignKey",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"schema\": \"test\",\n    \"tableName\": \"merchant\",\n    \"columns\": [\n        {\n            \"colName\": \"id\",\n            \"type\": \"VARCHAR\",\n            \"key\": \"PRIMARY KEY\"\n        },\n        {\n            \"colName\": \"title\",\n            \"type\": \"VARCHAR(255)\"\n        },\n        {\n            \"colName\": \"description\",\n            \"type\": \"TEXT\"\n        },\n        {\n            \"colName\": \"userId\",\n            \"type\": \"INT\"\n        }\n    ],\n    \"foreignKey\": [\n        {\n            \"name\": \"fk_employee\",\n            \"colName\": \"title\",\n            \"refTable\": \"employee\",\n            \"refCol\": \"name\"\n        },\n        {\n            \"name\": \"fk_user\",\n            \"colName\": \"userId\",\n            \"refTable\": \"user\",\n            \"refCol\": \"id\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/table/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"table",
+										"create"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "41"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"29-A6Ru+oBS1McLOExyjZVq4iCaYCg\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 02 Feb 2024 07:24:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Table created successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "alterTable",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"9a0c4708-b011-4e07-9566-9044f1a4bceb\", //9f48c5fa-070c-4dba-801e-43a31028fce3 //9a0c4708-b011-4e07-9566-9044f1a4bceb\n    \"schema\": \"test\",\n    \"tableName\": \"merchant\",\n    \"method\": \"RENAME\", //ADD, DROP, RENAME\n    \"columnName\": \"is_admin\",\n    \"columnType\": \"\", // if drop then send it emplty string\n    \"newColumnName\": \"is_admin\", // send when method is Rename\n    \"foreignKey\": [ // If you are use mysql then pass only one foreginKey at a time, method always ADD\n        {\n            \"name\": \"fk_employee\",\n            \"colName\": \"title\",\n            \"refTable\": \"employee\",\n            \"refCol\": \"name\"\n        },\n        {\n            \"name\": \"fk_user\",\n            \"colName\": \"userId\",\n            \"refTable\": \"user\",\n            \"refCol\": \"id\"\n        }\n    ],\n    \"primaryKey\": { // method always ADD\n        \"name\": \"merchant_pkey\",\n        \"colName\": \"id\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/table/alter",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"table",
+								"alter"
+							]
+						},
+						"description": "API for Alter table (ADD, DROP, RENAME)"
+					},
+					"response": [
+						{
+							"name": "success with primaryKey",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"schema\": \"test\",\n    \"tableName\": \"merchant\",\n    \"method\": \"ADD\", //ADD, DROP, RENAME\n    // \"columnName\": \"isAdmin\",\n    // \"columnType\": \"BOOLEAN\", // if drop then send it emplty string\n    // \"newColumnName\": \"mo\",\n    // \"foreignKey\": [\n    //     {\n    //         \"name\": \"fk_employee\",\n    //         \"colName\": \"title\",\n    //         \"refTable\": \"employee\",\n    //         \"refCol\": \"name\"\n    //     },\n    //     {\n    //         \"name\": \"fk_user\",\n    //         \"colName\": \"userId\",\n    //         \"refTable\": \"user\",\n    //         \"refCol\": \"id\"\n    //     }\n    // ]\n    \"primaryKey\": {\n        \"name\": \"merchant_pkey\",\n        \"colName\": \"id\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/table/alter",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"table",
+										"alter"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "41"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"29-e6KuD/R5V5PPXBPF2s8RM9vZIxY\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 02 Feb 2024 09:04:36 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Table altered successfully.\"\n}"
+						},
+						{
+							"name": "success with foreignKey",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"schema\": \"test\",\n    \"tableName\": \"merchant\",\n    \"method\": \"ADD\", //ADD, DROP, RENAME\n    // \"columnName\": \"isAdmin\",\n    // \"columnType\": \"BOOLEAN\", // if drop then send it emplty string\n    // \"newColumnName\": \"mo\",\n    \"foreignKey\": [\n        {\n            \"name\": \"fk_employee\",\n            \"colName\": \"title\",\n            \"refTable\": \"employee\",\n            \"refCol\": \"name\"\n        },\n        {\n            \"name\": \"fk_user\",\n            \"colName\": \"userId\",\n            \"refTable\": \"user\",\n            \"refCol\": \"id\"\n        }\n    ]\n    // \"primaryKey\": {\n    //     \"name\": \"merchant_pkey\",\n    //     \"colName\": \"id\"\n    // }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/table/alter",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"table",
+										"alter"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "41"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"29-e6KuD/R5V5PPXBPF2s8RM9vZIxY\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 02 Feb 2024 09:13:08 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Table altered successfully.\"\n}"
+						},
+						{
+							"name": "success to add column",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"schema\": \"test\",\n    \"tableName\": \"merchant\",\n    \"method\": \"ADD\", //ADD, DROP, RENAME\n    \"columnName\": \"isActive\",\n    \"columnType\": \"BOOLEAN\" // if drop then send it emplty string\n    // \"newColumnName\": \"mo\",\n    // \"foreignKey\": [\n    //     {\n    //         \"name\": \"fk_employee\",\n    //         \"colName\": \"title\",\n    //         \"refTable\": \"employee\",\n    //         \"refCol\": \"name\"\n    //     },\n    //     {\n    //         \"name\": \"fk_user\",\n    //         \"colName\": \"userId\",\n    //         \"refTable\": \"user\",\n    //         \"refCol\": \"id\"\n    //     }\n    // ]\n    // \"primaryKey\": {\n    //     \"name\": \"merchant_pkey\",\n    //     \"colName\": \"id\"\n    // }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/table/alter",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"table",
+										"alter"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "41"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"29-e6KuD/R5V5PPXBPF2s8RM9vZIxY\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 02 Feb 2024 09:19:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Table altered successfully.\"\n}"
+						},
+						{
+							"name": "success to rename column",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"schema\": \"test\",\n    \"tableName\": \"merchant\",\n    \"method\": \"RENAME\", //ADD, DROP, RENAME\n    \"columnName\": \"isActive\",\n    // \"columnType\": \"BOOLEAN\" // if drop then send it emplty string\n    \"newColumnName\": \"is_active\"\n    // \"foreignKey\": [\n    //     {\n    //         \"name\": \"fk_employee\",\n    //         \"colName\": \"title\",\n    //         \"refTable\": \"employee\",\n    //         \"refCol\": \"name\"\n    //     },\n    //     {\n    //         \"name\": \"fk_user\",\n    //         \"colName\": \"userId\",\n    //         \"refTable\": \"user\",\n    //         \"refCol\": \"id\"\n    //     }\n    // ]\n    // \"primaryKey\": {\n    //     \"name\": \"merchant_pkey\",\n    //     \"colName\": \"id\"\n    // }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/table/alter",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"table",
+										"alter"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "41"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"29-e6KuD/R5V5PPXBPF2s8RM9vZIxY\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 02 Feb 2024 09:24:21 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Table altered successfully.\"\n}"
+						},
+						{
+							"name": "success to drop column",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"schema\": \"test\",\n    \"tableName\": \"merchant\",\n    \"method\": \"DROP\", //ADD, DROP, RENAME\n    \"columnName\": \"is_active\",\n    \"columnType\": \"\" // if drop then send it emplty string\n    // \"newColumnName\": \"is_active\"\n    // \"foreignKey\": [\n    //     {\n    //         \"name\": \"fk_employee\",\n    //         \"colName\": \"title\",\n    //         \"refTable\": \"employee\",\n    //         \"refCol\": \"name\"\n    //     },\n    //     {\n    //         \"name\": \"fk_user\",\n    //         \"colName\": \"userId\",\n    //         \"refTable\": \"user\",\n    //         \"refCol\": \"id\"\n    //     }\n    // ]\n    // \"primaryKey\": {\n    //     \"name\": \"merchant_pkey\",\n    //     \"colName\": \"id\"\n    // }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/table/alter",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"table",
+										"alter"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "41"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"29-e6KuD/R5V5PPXBPF2s8RM9vZIxY\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 02 Feb 2024 09:29:03 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Table altered successfully.\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "In table",
+			"item": [
+				{
+					"name": "insert",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"9a0c4708-b011-4e07-9566-9044f1a4bceb\",//9a0c4708-b011-4e07-9566-9044f1a4bceb // 9f48c5fa-070c-4dba-801e-43a31028fce3\n    \"schema\": \"test\",\n    \"tableName\": \"merchant\",\n    \"columnName\": [\"id\", \"title\", \"description\", \"userid\"],\n    \"values\": [1, \"jay\", \"what thw dell\", 1]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/table/insert",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"table",
+								"insert"
+							]
+						},
+						"description": "API for Insert into table"
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"tableName\": \"author\",\n    \"columnName\": [\"createdAt\", \"updatedAt\", \"id\", \"name\", \"email\"],\n    \"values\": [\"1706162430997\",\"1706162430997\",\"6e6bc18o-100b-4244-bdd9-cc418596cba2\", \"test\", \"test10@gmail.com\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/table/insert",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"table",
+										"insert"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "43"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b-eqQF5XAOASbocmKEO+lv/6zAsg4\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 01 Feb 2024 07:56:19 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Record inserted successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"9f48c5fa-070c-4dba-801e-43a31028fce3\", //9f48c5fa-070c-4dba-801e-43a31028fce3 //9a0c4708-b011-4e07-9566-9044f1a4bceb\n    \"schema\": \"test\",\n    \"tableName\": \"user\",\n    \"column\": [\"fname\", \"lname\",\"age\"],\n    \"newValue\": [\"kartik\", \"rana\",20],\n    \"conditionColumn\": \"id\",\n    \"conditionValue\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/table/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"table",
+								"update"
+							]
+						},
+						"description": "API for Update into table"
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"tableName\": \"author\",\n    \"column\": \"name\",\n    \"newValue\": \"test2\",\n    \"conditionColumn\": \"id\",\n    \"conditionValue\": \"6e6bc18o-100b-4244-bdd9-cc418596cba2\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/table/update",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"table",
+										"update"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "42"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2a-lxUYMqGLITQam1zQvtrMNRuibMU\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 01 Feb 2024 07:57:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Record updated successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"9f48c5fa-070c-4dba-801e-43a31028fce3\",//9f48c5fa-070c-4dba-801e-43a31028fce3 //9a0c4708-b011-4e07-9566-9044f1a4bceb\n    \"schema\": \"test\",\n    \"tableName\": \"user\",\n    \"conditionColumn\": \"id\",\n    \"conditionValue\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/table/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"table",
+								"delete"
+							]
+						},
+						"description": "API for Delete into table"
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"988a2d93-d4cb-48ff-b984-d4f0b638815b\",\n    \"tableName\": \"author\",\n    \"conditionColumn\": \"id\",\n    \"conditionValue\": \"6e6bc18o-100b-4244-bdd9-cc418596cba2\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/table/delete",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"table",
+										"delete"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "42"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2a-I1Z5/kSmlcvlPB2UzDwd0YHkkIE\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 01 Feb 2024 07:58:10 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Record deleted successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "list row",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/table/list?id=9f48c5fa-070c-4dba-801e-43a31028fce3&schema=test&tableName=user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"table",
+								"list"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "9f48c5fa-070c-4dba-801e-43a31028fce3",
+									"description": "9a0c4708-b011-4e07-9566-9044f1a4bceb >> 9f48c5fa-070c-4dba-801e-43a31028fce3"
+								},
+								{
+									"key": "schema",
+									"value": "test"
+								},
+								{
+									"key": "tableName",
+									"value": "user"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/table/list?id=9f48c5fa-070c-4dba-801e-43a31028fce3&schema=test&tableName=user",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"table",
+										"list"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "9f48c5fa-070c-4dba-801e-43a31028fce3",
+											"description": "9a0c4708-b011-4e07-9566-9044f1a4bceb >> 9f48c5fa-070c-4dba-801e-43a31028fce3"
+										},
+										{
+											"key": "schema",
+											"value": "test"
+										},
+										{
+											"key": "tableName",
+											"value": "user"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "335"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"14f-n256D2dxlfCtRicqGcpUlHk3WaM\""
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 13 Feb 2024 06:45:20 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"table\": [\n        {\n            \"id\": 1,\n            \"fname\": \"jay\",\n            \"lname\": \"soni\",\n            \"age\": 21,\n            \"admin\": 0,\n            \"created_at\": null,\n            \"updated_at\": null,\n            \"isadmin\": null\n        },\n        {\n            \"id\": 2,\n            \"fname\": \"ved\",\n            \"lname\": \"pat\",\n            \"age\": 21,\n            \"admin\": 0,\n            \"created_at\": null,\n            \"updated_at\": null,\n            \"isadmin\": null\n        },\n        {\n            \"id\": 10,\n            \"fname\": \"kal\",\n            \"lname\": \"soni\",\n            \"age\": 22,\n            \"admin\": 0,\n            \"created_at\": null,\n            \"updated_at\": null,\n            \"isadmin\": null\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}

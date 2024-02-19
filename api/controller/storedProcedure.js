@@ -7,9 +7,10 @@ const saveQuery = async (req, res) => {
 
   try {
     // Convert columns array to string
-    const columnString = columns
-      .map((column) => `${column.method} ${column.name} ${column.type}`)
-      .join(',\n    ');
+    const columnString =
+      columns
+        ?.map((column) => `${column.method} ${column.name} ${column.type}`)
+        .join(',\n    ') || '';
 
     // Connect to the database using the provided ID
     const connection = await connectionUrl(id);

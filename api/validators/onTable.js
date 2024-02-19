@@ -5,12 +5,12 @@ const listTable = {
   params: Joi.object().keys({}),
   query: Joi.object().keys({
     id: Joi.string().guid({ version: 'uuidv4' }).required().messages({
-      'string.base': `The database Name should be a type of 'text'!`,
-      'string.empty': `The database Name cannot be an empty field.`,
-      'any.required': `The database Name is a required field.`,
+      'string.base': `The id should be a type of 'text'!`,
+      'string.empty': `The id cannot be an empty field.`,
+      'any.required': `The id is a required field.`,
     }),
     schema: Joi.string().default('public').messages({
-      'string.base': `The database Name should be a type of 'text'!`,
+      'string.base': `The schema should be a type of 'text'!`,
     }),
   }),
   body: Joi.object().keys({}),

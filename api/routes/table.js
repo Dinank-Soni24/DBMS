@@ -4,6 +4,7 @@ const router = express.Router();
 const validate = require('../validators/validate');
 const connectionValidation = require('../validators/connection');
 const onTableValidation = require('../validators/onTable');
+const inTableValidation = require('../validators/inTable');
 
 //add controller
 const inTableController = require('../controller/inTable');
@@ -58,15 +59,31 @@ router.post(
  ****************************/
 
 // insert data into specific table
-router.post('/insert', inTableController.insertTable);
+router.post(
+  '/insert',
+  validate(inTableValidation.insert),
+  inTableController.insertTable
+);
 
 // update data into specific table
-router.post('/update', inTableController.updateTable);
+router.post(
+  '/update',
+  validate(inTableValidation.update),
+  inTableController.updateTable
+);
 
 // delete data from specific table
-router.post('/delete', inTableController.deleteTable);
+router.post(
+  '/delete',
+  validate(inTableValidation.deleteRow),
+  inTableController.deleteTable
+);
 
 // get data from specific table
-router.get('/list', inTableController.listTableRow);
+router.get(
+  '/list',
+  validate(inTableValidation.listRow),
+  inTableController.listTableRow
+);
 
 module.exports = router;
