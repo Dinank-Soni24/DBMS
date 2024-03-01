@@ -1,34 +1,33 @@
 const { connectionUrl } = require('../helper/connection');
 
 const tableList = async (req, res) => {
-  // Get the ID from the request body
+  // Extract the 'id' from the query parameters
   const { id } = req.query;
 
-  // let client;
+  // Try to establish a database connection using the provided ID
   try {
-    // Connect to the database using the provided ID
     let connection = await connectionUrl(id);
 
+    // If there is an error in connecting to the database, handle it
     if (connection.error) {
-      // Log and handle errors when connecting to PostgreSQL
       console.error('Error connecting to database:', connection.error);
       return res.status(400).json({
         message: 'Error connecting to database',
         error: connection.error,
       });
     } else {
-      // Generate the schema name
+      // Determine the schema name based on the database type
       const schema =
         connection.database === 'postgres'
           ? req.query.schema
           : connection.databaseName;
 
-      // Query to get list of tables in the 'public' schema
+      // Query the database to get the list of tables in the specified schema
       const data = await connection.client.query(
         `SELECT table_name FROM information_schema.tables WHERE table_schema = '${schema}';`
       );
 
-      // Close the client connection after the operation is complete
+      // Close the database connection after the query is complete
       await connection.client.end();
 
       // Send the list of tables as a JSON response
@@ -37,7 +36,7 @@ const tableList = async (req, res) => {
       });
     }
   } catch (err) {
-    // Log and handle errors when fetching data from PostgreSQL
+    // If there is an error in fetching data from the database, handle it
     console.error('Error fetching data from PostgreSQL:', err);
     return res.status(400).json({
       message: 'Error fetching data from PostgreSQL',

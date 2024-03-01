@@ -6,7 +6,7 @@ const connectionUrl = async (id) => {
   // Extract the connection url from local file
   const url = await readFile(id);
   try {
-    
+
     let client =
       url?.database === 'postgres'
         ? new Client({
